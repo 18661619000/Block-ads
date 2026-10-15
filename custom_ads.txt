@@ -65,3 +65,22 @@ DOMAIN-SUFFIX,gdt.qq.com,REJECT-DICT
 DOMAIN-SUFFIX,ad.qq.com,REJECT-DICT
 DOMAIN-SUFFIX,pgdt.gtimg.cn,REJECT-200
 DOMAIN-SUFFIX,qzs.gdtimg.com,REJECT-200
+
+# --- 2026-10-15 13:35 导出日志 db 分析新增（闲鱼/菜鸟/拼多多/什么值得买漏网追踪与 HTTPDNS） ---
+DOMAIN-SUFFIX,analytics-api-01.smzdm.com,REJECT-200
+DOMAIN-SUFFIX,shence-import.smzdm.com,REJECT-200
+DOMAIN-SUFFIX,dg.k.jd.com,REJECT-200
+DOMAIN-SUFFIX,k.jd.com,REJECT-200
+DOMAIN-SUFFIX,baichuan-sdk.alicdn.com,REJECT-200
+DOMAIN-SUFFIX,baichuan-sdk.taobao.com,REJECT-200
+DOMAIN-SUFFIX,puata.info,REJECT-200
+DOMAIN-SUFFIX,yumao.puata.info,REJECT-200
+DOMAIN-SUFFIX,mlvbdc.tlivesdk.com,REJECT-200
+DOMAIN-SUFFIX,tlivesdk.com,REJECT-200
+DOMAIN-SUFFIX,th-a.pinduoduo.com,REJECT-200
+DOMAIN-SUFFIX,apm-a.pinduoduo.com,REJECT-200
+DOMAIN-SUFFIX,abtk.pinduoduo.com,REJECT-200
+DOMAIN-SUFFIX,xg.pinduoduo.com,REJECT-200
+DOMAIN-SUFFIX,abtest.alibaba.com,REJECT-200
+IP-CIDR,101.35.212.35/32,REJECT-200,no-resolve
+IP-CIDR,81.69.130.131/32,REJECT-200,no-resolve

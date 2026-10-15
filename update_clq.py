@@ -245,6 +245,7 @@ def update_readme_stats(ymd_compact, ymd_dash, full_time, new_stats, old_stats):
 
 - **更新时间**：`{ymd_dash}`（`{full_time}`）
 - **直连安全保护规则总数**：`{new_stats["direct"]:,}` 条（{d_delta}）
+- **境外代理分流规则总数**：`0` 条（已清理剔除 `27,540` 条非中国境内规则）
 - **去广告拦截规则总规模**：`{total_ad_items:,}` 条（含域名规则 `{new_stats["rules"]:,}` 条 + URL 重写 `{new_stats["rewrites"]:,}` 条 + 响应脚本 `{new_stats["scripts"]:,}` 条）
 
 | 规则细分类型 | 所属文件 | 当前规则总数 | 今日/本次变动 | 规则作用与覆盖范围 |
