@@ -1,0 +1,42 @@
+name: Auto Update CLQ Shield Rules
+
+on:
+  schedule:
+    # 每天北京时间 06:00 和 18:00 自动运行（UTC 22:00 和 10:00）
+    - cron: '0 22,10 * * *'
+  push:
+    paths:
+      - 'custom_ads.txt'
+      - 'update_clq.py'
+      - '.github/workflows/update.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run CLQ Shield Builder
+        run: python3 update_clq.py
+
+      - name: Commit and Push Updated Rules
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add CLQ_Shield.module CLQ_Route.conf
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: auto update CLQ_Shield.module & CLQ_Route.conf ($(date +'%Y-%m-%d %H:%M'))"
+            git push
+          fi
