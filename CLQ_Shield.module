@@ -1728,10 +1728,13 @@ URL-REGEX,p([\w]*)\-sign\.douyinpic\.com\/large\/tos,REJECT-200
 ^https?:\/\/(gw|heic|img)\.alicdn\.com\/imgextra\/i\w\/([\w\W]*)(1080-|1125-2436|1350|-1602|-1950|-2339|-2436|-2208|1170-2532)([\w\W]*)\.(jpg|png|heic|webp) _ REJECT-200
 ^https?:\/\/app\.58\.com\/api\/home\/appadv\/splashscreenadv _ REJECT-DICT
 ^https?:\/\/open\.taou\.com\/maimai\/adshow _ REJECT
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(show|mshow)\.cn\/ _ REJECT-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?!.*_home) _ REJECT-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow\.cn _ REJECT-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn _ REJECT-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area _ REJECT-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\. _ REJECT-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad _ REJECT-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.consultmerge _ REJECT-200
 ^https?:\/\/.+\.58cdn\.com\.cn\/brandads\/ _ REJECT
 ^https?:\/\/app\.58\.com\/api\/home\/(advertising|appadv) _ REJECT-200
@@ -4115,7 +4118,7 @@ PupuSplashAds4=type=http-response,pattern=^https?:\/\/j1\.pupuapi\.com\/client\/
 PupuSplashAds5=type=http-response,pattern=^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/PupuSplashAds.js
 PupuSplashAds6=type=http-response,pattern=^https?:\/\/j1\.pupuapi\.com\/client\/app_resource\/resource_preload\/list_h5_resource,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/PupuSplashAds.js
 cainiao4=type=http-response,pattern=^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/cainiao.js
-goofish=type=http-response,pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
+goofish=type=http-response,pattern=^https?:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
 meiyou_ads=type=http-response,pattern=^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\?,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/meiyou_ads.js
 meiyou_ads2=type=http-response,pattern=^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch\?,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/meiyou_ads.js
 zhihu3=type=http-response,pattern=^https?:\/\/appcloud2\.zhihu\.com\/v3\/config,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/zhihu.js
@@ -4138,10 +4141,10 @@ bohe_ads3=type=http-response,pattern=^https?:\/\/api\.boohee\.com\/meta-interfac
 mlxx=type=http-response,pattern=^https?:\/\/api\.bevol\.com\/(?:appmain\/app\/home\/page|usercenter\/account\/info|personal\/page|appmain\/app\/home\/launch|trialbox\/shop\/app\/homePage)$,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/mlxx.js
 adrive2=type=http-response,pattern=^https?:\/\/api\.alipan\.com\/apps\/v2\/users\/home\/(news|widgets),requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/adrive.js
 rrtv_json13=type=http-response,pattern=^https?:\/\/api.juxingclub.com\/ad\/getAll,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/rrtv_json.js
-goofish2=type=http-response,pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/1\.0,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
-goofish3=type=http-response,pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/1\.0,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
-goofish4=type=http-response,pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
-goofish5=type=http-response,pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
+goofish2=type=http-response,pattern=^https?:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/1\.0,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
+goofish3=type=http-response,pattern=^https?:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/1\.0,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
+goofish4=type=http-response,pattern=^https?:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
+goofish5=type=http-response,pattern=^https?:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/goofish.js
 zheye.min14=type=http-response,pattern=^https?:\/\/(page-info|api)\.zhihu\.com\/answers\/v2\/\d+,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/zheye.min.js
 maimai_ads=type=http-response,pattern=^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/feed\/v6\/detail_recommend_feeds\?,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/maimai_ads.js
 maimai_ads2=type=http-response,pattern=^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(focus_feed|gossip_detail_comment|feed_detail_comment?)\?,requires-body=1,script-path=https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/modules/local_js/maimai_ads.js
