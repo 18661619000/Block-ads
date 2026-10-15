@@ -1,5 +1,5 @@
 # ==============================================================================
-# Block-ads (CLQ Shield) 自定义抓包广告域名清单 (custom_ads.txt)
+# Block-ads (CLQ_Shield) 自定义抓包广告域名清单 (custom_ads.txt)
 # 仓库地址：https://github.com/18661619000/Block-ads
 # ==============================================================================
 # 使用说明：
@@ -10,9 +10,7 @@
 #    写法 B（完整 Shadowrocket 规则语法，可指定 REJECT-200 / REJECT-DICT / URL-REGEX）：
 #      DOMAIN-SUFFIX,iytcdn.com,REJECT-200
 #      URL-REGEX,^https?:\/\/[^\/]*reading-ad\.qznovelvod\.com,REJECT-200
-# 2. 保存提交后，GitHub Actions 会自动运行 update_clq.py 并更新 CLQ_Shield.module。
-# 3. 脚本内置了“防断网保护白名单”，即使不小心误填了 zijieapi.com / snssdk.com / bdimg.com
-#    等 App 核心业务根域名，脚本也会自动跳过并提示，不会导致 App 断网或封面裂图。
+# 2. 保存提交后，GitHub Actions 会自动运行 update_clq.py 并更新 CLQ_Shield.module 与 README.md。
 # ==============================================================================
 
 # --- 2026-10-15 抓包新增 ---

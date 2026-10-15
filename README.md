@@ -1,8 +1,27 @@
-# 🛡️ Block-ads (CLQ Shield 中国境内纯净去广告规则库)
+# 🛡️ Block-ads (CLQ_Shield 中国境内纯净去广告规则库)
 
 专为 **Shadowrocket（小火箭）** 打造的**中国境内纯净去广告规则仓库**。已彻底剔除境外代理分流规则、二十多万条无用海外域名及虚拟定位劫持，体积精简 **96%+**（仅约 310 KB），从根源避免 iOS 小火箭因加载超大规则集触发系统 50MB 内存限制（Jetsam）导致的断连与发热。
 
 本仓库通过 **GitHub Actions** 每天北京时间 `06:00` 与 `18:00` 自动拉取上游规则清洗构建，并支持通过编辑 [`custom_ads.txt`](https://github.com/18661619000/Block-ads/blob/main/custom_ads.txt) 随时追加个人抓包监听到的新广告域名。
+
+<!-- STATS_START -->
+## 📊 规则实时更新统计
+
+> 🕒 **更新日期**：`2026-10-15`（精确时间：`2026-10-15 11:14:36` 北京时间）｜ **文件头版本标识**：`更新日期:20261015`
+
+- **更新时间**：`2026-10-15`（`2026-10-15 11:14:36`）
+- **直连安全保护规则总数**：`39` 条（今日新增 0 条）
+- **去广告拦截规则总规模**：`4,117` 条（含域名规则 `1,633` 条 + URL 重写 `2,125` 条 + 响应脚本 `359` 条）
+
+| 规则细分类型 | 所属文件 | 当前规则总数 | 今日/本次变动 | 规则作用与覆盖范围 |
+| :--- | :--- | :--- | :--- | :--- |
+| **去广告域名规则 (`[Rule]`)** | `CLQ_Shield.module` | **1,633 条** | `今日精简 -36 条` | 涵盖 12 大核心 App 专项规则、摇一摇 SDK 根域名及中国境内广告网域 |
+| **个人抓包自定义规则** | `custom_ads.txt` | **49 条** | `今日新增 0 条` | 个人实测抓包锁定的冷门广告/快应用/短剧广告源（自动合并入模块） |
+| **URL 重写规则 (`[URL Rewrite]`)** | `CLQ_Shield.module` | **2,125 条** | `今日新增 0 条` | 拦截开屏大图/视频、MTOP 广告接口、AMDC 加密调度及流氓软件官网跳转 |
+| **去广告净化脚本 (`[Script]`)** | `CLQ_Shield.module` | **359 条** | `今日精简 -1 条` | 针对信息流、取件页、播放页与搜索热词的 JSON 响应结构精准剥离 |
+| **HTTPS 解密域名 (`[MITM]`)** | `CLQ_Shield.module` | **629 个** | `今日新增 +10 个` | 按需解密国内 App 广告网关，内置 **18 项**银行/支付宝/政务强制排除保护 |
+| **直连与安全兜底规则** | `CLQ_Route.conf` | **39 条** | `今日新增 0 条` | 局域网保留网段、六大行与主流股份制银行、支付宝、微信支付、政务平台直连 |
+<!-- STATS_END -->
 
 ## 🚀 快速开始（Shadowrocket 订阅链接）
 
@@ -21,12 +40,12 @@
 Block-ads/
 ├── .github/
 │   └── workflows/
-│       └── update.yml        # GitHub Actions 自动定时构建与提交工作流
-├── CLQ_Route.conf            # Shadowrocket 主规则配置文件（纯国内直连去广告架构，FINAL,DIRECT）
-├── CLQ_Shield.module         # Shadowrocket 核心去广告模块（含域名拦截、URL 重写、去广告脚本与 MITM）
+│       └── update.yml        # GitHub Actions 自动定时构建与提交工作流（同步更新模块、配置与 README 统计）
+├── CLQ_Route.conf            # Shadowrocket 主规则配置文件（首行标注 # CLQ_Route (更新日期:YYYYMMDD)）
+├── CLQ_Shield.module         # Shadowrocket 核心去广告模块（首行标注 #!name=CLQ_Shield (更新日期:YYYYMMDD)）
 ├── custom_ads.txt            # 个人手动抓包新增的广告域名清单（修改保存后自动触发重编译）
-├── update_clq.py             # 自动拉取上游、清洗非境内规则、防断网校验并生成模块的核心 Python 脚本
-└── README.md                 # 仓库说明与使用文档
+├── update_clq.py             # 自动拉取上游、清洗非境内规则、防断网校验并更新统计面板的核心 Python 脚本
+└── README.md                 # 仓库说明与实时更新统计文档
 ```
 
 ## 🎯 12 大主流国内 App 专项去广告覆盖
@@ -69,11 +88,11 @@ Block-ads/
    URL-REGEX,^https?:\/\/[^\/]*reading-ad\.qznovelvod\.com,REJECT-200
    ```
 3. 点击 **Commit changes** 保存提交。
-4. 仓库的 **GitHub Actions** 会自动触发运行 `update_clq.py`（约 20~30 秒完成），自动去重、完成防断网白名单校验，并将最新生成的规则写入 `CLQ_Shield.module`。随后在 Shadowrocket「模块」页面下拉刷新即可同步。
+4. 仓库的 **GitHub Actions** 会自动触发运行 `update_clq.py`（约 20~30 秒完成），自动去重、完成防断网白名单校验，并将最新生成的规则与最新日期写入 `CLQ_Shield.module`、`CLQ_Route.conf` 和 `README.md`。随后在 Shadowrocket「模块」页面下拉刷新即可同步。
 
 ## ⚠️ 首次开启仓库 GitHub Actions 写入权限提示
 
 首次将文件上传至 [`18661619000/Block-ads`](https://github.com/18661619000/Block-ads) 后，请检查一次仓库权限设置以确保自动提交生效：
 * 进入仓库顶部的 **Settings** → 左侧菜单点击 **Actions → General**。
 * 向下滚动找到 **Workflow permissions**，确认选中 **Read and write permissions**（读写权限），点击 **Save**。
-* 进入仓库顶部的 **Actions** 标签页，点击左侧 **Auto Update CLQ Shield Rules** → 点击右侧 **Run workflow** 即可立即测试一次自动构建。
+* 进入仓库顶部的 **Actions** 标签页，点击左侧 **Auto Update CLQ_Shield Rules** → 点击右侧 **Run workflow** 即可立即测试一次自动构建。

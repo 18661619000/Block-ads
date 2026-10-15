@@ -1,4 +1,4 @@
-name: Auto Update CLQ Shield Rules
+name: Auto Update CLQ_Shield Rules
 
 on:
   schedule:
@@ -26,17 +26,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run CLQ Shield Builder
+      - name: Build CLQ_Shield & CLQ_Route and Update README Stats
         run: python3 update_clq.py
 
-      - name: Commit and Push Updated Rules
+      - name: Commit and Push Updated Files
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add CLQ_Shield.module CLQ_Route.conf
+          git add CLQ_Shield.module CLQ_Route.conf README.md
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: auto update CLQ_Shield.module & CLQ_Route.conf ($(date +'%Y-%m-%d %H:%M'))"
+            TZ='Asia/Shanghai' git commit -m "chore: auto update rules ($(TZ='Asia/Shanghai' date +'%Y%m%d %H:%M'))"
             git push
           fi

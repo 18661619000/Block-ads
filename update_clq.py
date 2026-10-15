@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-CLQ Shield & CLQ Route 自动构建脚本 (update_clq.py)
+CLQ_Shield & CLQ_Route 自动构建与统计更新脚本 (update_clq.py)
+仓库地址：https://github.com/18661619000/Block-ads
 功能：
-1. 自动从上游 Unwhimsical/NetPilot 拉取最新模块数据（若本地已有缓存或网络异常可优雅回退）
-2. 自动读取仓库根目录下的 custom_ads.txt（你平时手动抓包添加的广告域名）
+1. 自动从上游 Unwhimsical/NetPilot 拉取最新模块数据（若网络异常可自动回退读取本地缓存）
+2. 自动读取仓库根目录下的 custom_ads.txt（平时手动抓包添加的广告域名）
 3. 自动清理非中国境内的代理规则 (PROXY) 与二十多万条海外无关域名
 4. 内置 12 大主流国内 App（百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）专项强化与防断网保护
-5. 输出精简纯净的 CLQ_Shield.module 与 CLQ_Route.conf
+5. 严格按规范写入首行日期标识：
+   - CLQ_Route.conf 第一行：# CLQ_Route (更新日期:YYYYMMDD)
+   - CLQ_Shield.module 第一行：#!name=CLQ_Shield (更新日期:YYYYMMDD)
+6. 自动计算每次构建的规则变动量，并同步更新 README.md 中的「📊 规则实时更新统计」面板
 """
 
 from collections import OrderedDict
@@ -20,8 +24,8 @@ UPSTREAM_URL = "https://raw.githubusercontent.com/Unwhimsical/NetPilot/refs/head
 CUSTOM_ADS_FILE = "custom_ads.txt"
 OUT_MODULE_FILE = "CLQ_Shield.module"
 OUT_CONF_FILE = "CLQ_Route.conf"
+README_FILE = "README.md"
 
-# 核心业务/CDN 根域名防误杀保护白名单（不可整站 DOMAIN-SUFFIX REJECT，否则会导致 App 断网或图片全裂）
 PROTECTED_ROOT_DOMAINS = {
     "baidu.com", "map.baidu.com", "newclient.map.baidu.com", "client.map.baidu.com", "ugc.map.baidu.com",
     "bdimg.com", "bdstatic.com", "taobao.com", "tmall.com", "alicdn.com", "cainiao.com", "cn-acs.m.cainiao.com",
@@ -32,9 +36,41 @@ PROTECTED_ROOT_DOMAINS = {
 }
 
 
-def get_beijing_time():
+def get_beijing_times():
     tz_bj = timezone(timedelta(hours=8))
-    return datetime.now(tz_bj).strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(tz_bj)
+    return now.strftime("%Y%m%d"), now.strftime("%Y-%m-%d"), now.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def read_previous_stats():
+    stats = {"rules": None, "rewrites": None, "scripts": None, "mitm": None, "custom": None, "direct": 39}
+    if os.path.exists(OUT_MODULE_FILE):
+        try:
+            with open(OUT_MODULE_FILE, "r", encoding="utf-8", errors="replace") as f:
+                head = [next(f, "") for _ in range(20)]
+            text = "".join(head)
+            m_r = re.search(r"# 国内去广告规则总数:\s*(\d+)", text)
+            m_rw = re.search(r"# 国内 URL 重写总数:\s*(\d+)", text)
+            m_sc = re.search(r"# 国内去广告脚本总数:\s*(\d+)", text)
+            m_m = re.search(r"# MITM 主机名总数:\s*(\d+)", text)
+            if m_r: stats["rules"] = int(m_r.group(1))
+            if m_rw: stats["rewrites"] = int(m_rw.group(1))
+            if m_sc: stats["scripts"] = int(m_sc.group(1))
+            if m_m: stats["mitm"] = int(m_m.group(1))
+        except Exception:
+            pass
+    return stats
+
+
+def format_delta(new_val, old_val, unit="条"):
+    if old_val is None:
+        return f"今日新增 0 {unit}"
+    diff = new_val - old_val
+    if diff > 0:
+        return f"今日新增 +{diff} {unit}"
+    elif diff < 0:
+        return f"今日精简 {diff} {unit}"
+    return f"今日新增 0 {unit}"
 
 
 def fetch_upstream_lines():
@@ -48,7 +84,7 @@ def fetch_upstream_lines():
             print(f"[INFO] 成功拉取上游规则: {UPSTREAM_URL}")
             return [line.rstrip("\r\n") for line in content.splitlines()]
     except Exception as e:
-        print(f"[WARN] 拉取上游失败 ({e})，尝试读取本地现有 {OUT_MODULE_FILE} 作为基础源...")
+        print(f"[WARN] 拉取上游失败 ({e})，读取本地现有 {OUT_MODULE_FILE} 作为基础源...")
         if os.path.exists(OUT_MODULE_FILE):
             with open(OUT_MODULE_FILE, "r", encoding="utf-8", errors="replace") as f:
                 return [line.rstrip("\r\n") for line in f]
@@ -64,7 +100,6 @@ def load_custom_ads():
             s = line.strip()
             if not s or s.startswith("#"):
                 continue
-            # 支持直接写纯域名（自动转为 DOMAIN-SUFFIX,xxx,REJECT-DICT）
             if "," not in s:
                 dom = s.lower().lstrip("*.")
                 if dom in PROTECTED_ROOT_DOMAINS:
@@ -85,8 +120,11 @@ def load_custom_ads():
     return custom_rules
 
 
-def build_conf():
-    conf_content = """# CLQ Route (中国境内纯净去广告版 - 12大核心App专项优化)
+def build_conf(ymd_compact, ymd_dash, full_time):
+    conf_content = f"""# CLQ_Route (更新日期:{ymd_compact})
+# 仓库地址：https://github.com/18661619000/Block-ads
+# 订阅地址：https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Route.conf
+# 更新时间：{full_time} 北京时间
 # 适用客户端：Shadowrocket (小火箭本地去广告配置)
 # 核心特性：
 # 1. 专为中国境内去广告设计：清理全部境外代理分流规则、境外 DoH 及无用海外域名，无虚拟定位劫持
@@ -181,12 +219,65 @@ hostname = -*.alipay.com, -*.alipay.com.cn, -*.alipayobjects.com, -*.icbc.com.cn
 """
     with open(OUT_CONF_FILE, "w", encoding="utf-8") as f:
         f.write(conf_content)
+    # Count direct/rule lines in CLQ_Route.conf
+    direct_count = sum(1 for l in conf_content.splitlines() if l.startswith(("IP-CIDR,", "DOMAIN-SUFFIX,", "AND,", "FINAL,")))
+    return direct_count
+
+
+def update_readme_stats(ymd_compact, ymd_dash, full_time, new_stats, old_stats):
+    if not os.path.exists(README_FILE):
+        return
+    with open(README_FILE, "r", encoding="utf-8", errors="replace") as f:
+        readme_text = f.read()
+
+    r_delta = format_delta(new_stats["rules"], old_stats.get("rules"), "条")
+    c_delta = format_delta(new_stats["custom"], old_stats.get("custom"), "条")
+    rw_delta = format_delta(new_stats["rewrites"], old_stats.get("rewrites"), "条")
+    sc_delta = format_delta(new_stats["scripts"], old_stats.get("scripts"), "条")
+    m_delta = format_delta(new_stats["mitm"], old_stats.get("mitm"), "个")
+    d_delta = format_delta(new_stats["direct"], old_stats.get("direct"), "条")
+    total_ad_items = new_stats["rules"] + new_stats["rewrites"] + new_stats["scripts"]
+
+    stats_block = f"""<!-- STATS_START -->
+## 📊 规则实时更新统计
+
+> 🕒 **更新日期**：`{ymd_dash}`（精确时间：`{full_time}` 北京时间）｜ **文件头版本标识**：`更新日期:{ymd_compact}`
+
+- **更新时间**：`{ymd_dash}`（`{full_time}`）
+- **直连安全保护规则总数**：`{new_stats["direct"]:,}` 条（{d_delta}）
+- **去广告拦截规则总规模**：`{total_ad_items:,}` 条（含域名规则 `{new_stats["rules"]:,}` 条 + URL 重写 `{new_stats["rewrites"]:,}` 条 + 响应脚本 `{new_stats["scripts"]:,}` 条）
+
+| 规则细分类型 | 所属文件 | 当前规则总数 | 今日/本次变动 | 规则作用与覆盖范围 |
+| :--- | :--- | :--- | :--- | :--- |
+| **去广告域名规则 (`[Rule]`)** | `CLQ_Shield.module` | **{new_stats["rules"]:,} 条** | `{r_delta}` | 涵盖 12 大核心 App 专项规则、摇一摇 SDK 根域名及中国境内广告网域 |
+| **个人抓包自定义规则** | `custom_ads.txt` | **{new_stats["custom"]:,} 条** | `{c_delta}` | 个人实测抓包锁定的冷门广告/快应用/短剧广告源（自动合并入模块） |
+| **URL 重写规则 (`[URL Rewrite]`)** | `CLQ_Shield.module` | **{new_stats["rewrites"]:,} 条** | `{rw_delta}` | 拦截开屏大图/视频、MTOP 广告接口、AMDC 加密调度及流氓软件官网跳转 |
+| **去广告净化脚本 (`[Script]`)** | `CLQ_Shield.module` | **{new_stats["scripts"]:,} 条** | `{sc_delta}` | 针对信息流、取件页、播放页与搜索热词的 JSON 响应结构精准剥离 |
+| **HTTPS 解密域名 (`[MITM]`)** | `CLQ_Shield.module` | **{new_stats["mitm"]:,} 个** | `{m_delta}` | 按需解密国内 App 广告网关，内置 **18 项**银行/支付宝/政务强制排除保护 |
+| **直连与安全兜底规则** | `CLQ_Route.conf` | **{new_stats["direct"]:,} 条** | `{d_delta}` | 局域网保留网段、六大行与主流股份制银行、支付宝、微信支付、政务平台直连 |
+<!-- STATS_END -->"""
+
+    if "<!-- STATS_START -->" in readme_text and "<!-- STATS_END -->" in readme_text:
+        readme_text = re.sub(
+            r"<!-- STATS_START -->.*?<!-- STATS_END -->",
+            stats_block,
+            readme_text,
+            flags=re.DOTALL
+        )
+    else:
+        readme_text = readme_text.replace("## 🚀 快速开始", stats_block + "\n\n## 🚀 快速开始", 1)
+
+    with open(README_FILE, "w", encoding="utf-8") as f:
+        f.write(readme_text)
 
 
 def main():
-    build_conf()
+    ymd_compact, ymd_dash, full_time = get_beijing_times()
+    old_stats = read_previous_stats()
+    direct_count = build_conf(ymd_compact, ymd_dash, full_time)
     lines = fetch_upstream_lines()
     custom_rules = load_custom_ads()
+    old_stats["custom"] = len(custom_rules) if old_stats.get("custom") is None else old_stats.get("custom")
 
     sections = {}
     cur = "HEADER"
@@ -550,11 +641,6 @@ def main():
         if key not in best_rule_by_key or prio.get(pol, 0) > best_rule_by_key[key][0]:
             best_rule_by_key[key] = (prio.get(pol, 0), norm_str)
 
-    curated_suffixes = set()
-    for l in curated_core_rules:
-        if l.startswith("DOMAIN-SUFFIX,"):
-            curated_suffixes.add(l.split(",")[1].strip().lower())
-
     def has_parent_in_set(dom, suffix_set):
         parts = dom.split(".")
         for i in range(1, len(parts)):
@@ -762,12 +848,13 @@ def main():
             seen_hosts.add(h)
             clean_hosts.append(h)
 
-    bj_now = get_beijing_time()
     with open(OUT_MODULE_FILE, "w", encoding="utf-8") as f:
-        f.write("#!name=CLQ Shield (中国境内去广告纯净版 · 12大App专项强化)\n")
+        f.write(f"#!name=CLQ_Shield (更新日期:{ymd_compact})\n")
         f.write(f"#!desc=国内去广告规则: {rule_count} ｜ 重写: {rw_count} ｜ 脚本: {len(final_sc_lines)}\n\n")
         f.write("# 描述：专为中国境内环境优化的 Shadowrocket 纯去广告模块（专项强化：百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）\n")
-        f.write(f"# 更新时间: {bj_now} 北京时间\n")
+        f.write("# 仓库地址: https://github.com/18661619000/Block-ads\n")
+        f.write("# 订阅地址: https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Shield.module\n")
+        f.write(f"# 更新时间: {full_time} 北京时间\n")
         f.write(f"# 国内去广告规则总数: {rule_count}\n")
         f.write(f"# 国内 URL 重写总数: {rw_count}\n")
         f.write(f"# 国内去广告脚本总数: {len(final_sc_lines)}\n")
@@ -784,7 +871,16 @@ def main():
         f.write("\n[MITM]\nenable = true\n")
         f.write("hostname = %APPEND% " + ", ".join(clean_hosts) + "\n")
 
-    print(f"[SUCCESS] 已生成 {OUT_MODULE_FILE} (规则: {rule_count}, 重写: {rw_count}, 脚本: {len(final_sc_lines)}) 与 {OUT_CONF_FILE}")
+    new_stats = {
+        "rules": rule_count,
+        "custom": len(custom_rules),
+        "rewrites": rw_count,
+        "scripts": len(final_sc_lines),
+        "mitm": len(clean_hosts),
+        "direct": direct_count,
+    }
+    update_readme_stats(ymd_compact, ymd_dash, full_time, new_stats, old_stats)
+    print(f"[SUCCESS] 已更新 {OUT_MODULE_FILE}, {OUT_CONF_FILE}, {README_FILE} (更新日期:{ymd_compact})")
 
 
 if __name__ == "__main__":
