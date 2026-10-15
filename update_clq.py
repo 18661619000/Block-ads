@@ -708,6 +708,9 @@ def main():
         r"^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(start|queryMaterialAdverts|home_launchConfig|lite_advertising|homeAreaPop) _ REJECT-DICT",
         r"^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125 _ REJECT-200",
         r"^https?:\/\/(img\w|kjimg10)\.360buyimg\.com\/(pop|mcmktresadmin)\/jfs\/([\w\W]*)\.(jpg|png|heic|webp|avif) _ REJECT-200",
+                "# --- 什么值得买 (SMZDM) 专项重写 ---",
+        r"^https?:\/\/s-api\.smzdm\.com\/sou\/search_keyword_redirect_urls _ REJECT-DICT",
+        r"^https?:\/\/s\d\.zdmimg\.com\/www\/api\/v\d\/api\/thirdAd\.php _ REJECT-DICT",
         "# --- 喜马拉雅 专项重写 ---",
         r"^https?:\/\/(adse\.wsa|adse|adbehavior|xdcs-collector)\.xima.*\.com\/.* _ REJECT-200",
         r"^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home) _ REJECT-DICT",
@@ -737,7 +740,7 @@ def main():
             "xima.*\\.com\\/mobile-playpage\\/view\\/",
             "gab\\.122\\.gov\\.cn", "biliintl\\.com", "fmz200/wool_scripts",
             "google\\.cn", "g\\.cn", "spotify\\.com", "yap\\.yahoo\\.com",
-            "tiktokv", "i18n-pglstatp", "ign\\.xn--fiqs8s", "aicoin\\.cn"
+            "tiktokv", "i18n-pglstatp", "ign\\.xn--fiqs8s", "aicoin\\.cn", "smzdm\\.com/util/loading", "smzdm\\.com/v\\d/util/loading"
         ]):
             continue
         parts = s.split()
@@ -773,6 +776,8 @@ def main():
         s = s.replace(r"pattern=^https?:\/\/g-acs\.m\.goofish\.com\/gw\/", r"pattern=^https?:\/\/(g-|guide-|h5api\.)?acs\.m\.goofish\.com\/gw\/")
         s = s.replace(r"pattern=^http:\/\/amdc\.m\.taobao\.com", r"pattern=^https?:\/\/amdc\.m\.taobao\.com")
         s = s.replace(r"pattern=^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch", r"pattern=^https?:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch")
+        s = s.replace("https://raw.githubusercontent.com/Unwhimsical/NetPilot/main/", "https://fastly.jsdelivr.net/gh/Unwhimsical/NetPilot@main/")
+        s = s.replace("https://raw.githubusercontent.com/Unwhimsical/NetPilot/refs/heads/main/", "https://fastly.jsdelivr.net/gh/Unwhimsical/NetPilot@main/")
         m_pat = re.search(r'pattern=([^,]+)', s)
         if not m_pat:
             continue
