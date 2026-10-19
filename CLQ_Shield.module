@@ -1,12 +1,12 @@
-#!name=CLQ_Shield (更新日期:20261019)
-#!desc=国内去广告规则: 2244 ｜ 重写: 2124 ｜ 脚本: 359
+#!name=CLQ_Shield (更新日期:20261020)
+#!desc=国内去广告规则: 2244 ｜ 重写: 2127 ｜ 脚本: 359
 
 # 描述：专为中国境内环境优化的 Shadowrocket 纯去广告模块（专项强化：百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）
 # 仓库地址: https://github.com/18661619000/Block-ads
 # 订阅地址: https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Shield.module
-# 更新时间: 2026-10-19 08:02:50 北京时间
+# 更新时间: 2026-10-20 00:52:59 北京时间
 # 国内去广告规则总数: 2244
-# 国内 URL 重写总数: 2124
+# 国内 URL 重写总数: 2127
 # 国内去广告脚本总数: 359
 # MITM 主机名总数: 615
 
@@ -4405,6 +4405,9 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 _ REJECT
 ^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+ _ REJECT-DICT
 ^http:\/\/.*babytree\.com/(plough\.do|go_search\/api\/mobile_search_new\/get_multi_search_default_keywords) _ REJECT-200
 ^(http:\/\/www\.vgtime\.com\/app\/topic\/\d+\.jhtml\?.*?&close_ad=)false(&page=\d&sign=\w+&timestamp=\d+&font_size=\d$) $1true$2 302
+^https?:\/\/www\.tianxibook\.com\/public\/\d{6}\.js$ _ REJECT-DICT
+^https?:\/\/cloud\.video\.taobao\.com\/vod\/([\w\W]*)\.mp4 _ REJECT-200
+^https?:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash _ REJECT-DICT
 
 [Script]
 微博去广告=type=http-response,pattern=^https?://m?api\.weibo\.c(n|om)/2/(cardlist|searchall|page|messageflow|statuses/(unread_)?friends(/|_)timeline|groups/timeline|statuses/(unread_hot_timeline|extend|video_mixtimeline)|profile/(me|statuses)|video/(community_tab|remind_info|tiny_stream_video_list)|checkin/show|\!/live/media_homelist|comments/build_comments|container/get_item|search/(finder|container_timeline|container_discover)),requires-body=1,script-path=https://fastly.jsdelivr.net/gh/Unwhimsical/NetPilot@main/modules/local_js/Netpilot_adblock.js
