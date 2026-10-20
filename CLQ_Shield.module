@@ -1,11 +1,11 @@
 #!name=CLQ_Shield (更新日期:20261020)
-#!desc=国内去广告规则: 2244 ｜ 重写: 2127 ｜ 脚本: 359
+#!desc=国内去广告规则: 2246 ｜ 重写: 2127 ｜ 脚本: 359
 
 # 描述：专为中国境内环境优化的 Shadowrocket 纯去广告模块（专项强化：百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）
 # 仓库地址: https://github.com/18661619000/Block-ads
 # 订阅地址: https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Shield.module
-# 更新时间: 2026-10-20 08:59:23 北京时间
-# 国内去广告规则总数: 2244
+# 更新时间: 2026-10-20 22:52:12 北京时间
+# 国内去广告规则总数: 2246
 # 国内 URL 重写总数: 2127
 # 国内去广告脚本总数: 359
 # MITM 主机名总数: 615
@@ -1617,10 +1617,12 @@ DOMAIN-SUFFIX,metok.sys.miui.com,REJECT
 DOMAIN-SUFFIX,metric.huya.com,REJECT
 DOMAIN-SUFFIX,metrics-dra.dt.hicloud.com,REJECT
 DOMAIN-SUFFIX,metrics.americanairlines.cn,REJECT
+DOMAIN-SUFFIX,metrics.calvinklein.cn,REJECT
 DOMAIN-SUFFIX,metrics.citi.cn,REJECT
 DOMAIN-SUFFIX,metrics.citi.com.cn,REJECT
 DOMAIN-SUFFIX,metrics.citibank.cn,REJECT
 DOMAIN-SUFFIX,metrics.citibank.com.cn,REJECT
+DOMAIN-SUFFIX,metrics.ef.com.cn,REJECT
 DOMAIN-SUFFIX,metrics.hollisterco.cn,REJECT
 DOMAIN-SUFFIX,metrics.ilovematlab.cn,REJECT
 DOMAIN-SUFFIX,metrics.mathworks.cn,REJECT
