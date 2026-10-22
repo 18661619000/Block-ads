@@ -1,11 +1,11 @@
 #!name=CLQ_Shield (更新日期:20261022)
-#!desc=国内去广告规则: 2246 ｜ 重写: 2127 ｜ 脚本: 359
+#!desc=国内去广告规则: 2254 ｜ 重写: 2127 ｜ 脚本: 359
 
 # 描述：专为中国境内环境优化的 Shadowrocket 纯去广告模块（专项强化：百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）
 # 仓库地址: https://github.com/18661619000/Block-ads
 # 订阅地址: https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Shield.module
-# 更新时间: 2026-10-22 08:31:56 北京时间
-# 国内去广告规则总数: 2246
+# 更新时间: 2026-10-22 22:58:46 北京时间
+# 国内去广告规则总数: 2254
 # 国内 URL 重写总数: 2127
 # 国内去广告脚本总数: 359
 # MITM 主机名总数: 615
@@ -1030,6 +1030,7 @@ DOMAIN-SUFFIX,amap-aos-info-nogw.amap.com,REJECT
 DOMAIN-SUFFIX,amwm.cn,REJECT
 DOMAIN-SUFFIX,analy.qq.com,REJECT
 DOMAIN-SUFFIX,analysis.chatglm.cn,REJECT
+DOMAIN-SUFFIX,analysis.watcha.cn,REJECT
 DOMAIN-SUFFIX,analysys.cn,REJECT
 DOMAIN-SUFFIX,analytics-api.smzdm.com,REJECT
 DOMAIN-SUFFIX,analytics-ccu.qpyou.cn,REJECT
@@ -1040,10 +1041,13 @@ DOMAIN-SUFFIX,analytics.map.qq.com,REJECT
 DOMAIN-SUFFIX,analytics.meituan.net,REJECT
 DOMAIN-SUFFIX,analytics.metro.cn,REJECT
 DOMAIN-SUFFIX,analytics.sixt.cn,REJECT
+DOMAIN-SUFFIX,analytics.ynu.edu.cn,REJECT
+DOMAIN-SUFFIX,analyze.webruix.cn,REJECT
 DOMAIN-SUFFIX,android.bugly.qq.com,REJECT
 DOMAIN-SUFFIX,answers.teradata.com.cn,REJECT
 DOMAIN-SUFFIX,aovk.cn,REJECT
 DOMAIN-SUFFIX,api-ad-adapter.wps.com,REJECT
+DOMAIN-SUFFIX,api.apm.cn,REJECT
 DOMAIN-SUFFIX,api.brs.intl.miui.com,REJECT
 DOMAIN-SUFFIX,api.exc.mob.com,REJECT
 DOMAIN-SUFFIX,api.miui.security.xiaomi.com,REJECT
@@ -1600,6 +1604,7 @@ DOMAIN-SUFFIX,mail.pmo.ac.cn,REJECT
 DOMAIN-SUFFIX,mail.siom.ac.cn,REJECT
 DOMAIN-SUFFIX,manage.wdfans.cn,REJECT
 DOMAIN-SUFFIX,market.duowan.com,REJECT
+DOMAIN-SUFFIX,matomo.fatda.cn,REJECT
 DOMAIN-SUFFIX,matwbp.iask.sina.com.cn,REJECT
 DOMAIN-SUFFIX,mazu.m.qq.com,REJECT
 DOMAIN-SUFFIX,mazu.sec.miui.com,REJECT
@@ -1935,6 +1940,7 @@ DOMAIN-SUFFIX,static.adwo.com,REJECT
 DOMAIN-SUFFIX,static.gaomaer.cn,REJECT
 DOMAIN-SUFFIX,static.wooboo.com.cn,REJECT
 DOMAIN-SUFFIX,statistic.live.126.net,REJECT
+DOMAIN-SUFFIX,statistic.xiaoxiezi886.cn,REJECT
 DOMAIN-SUFFIX,stats.thermofisher.com.cn,REJECT
 DOMAIN-SUFFIX,stats.thermoscientific.cn,REJECT
 DOMAIN-SUFFIX,statwup.huya.com,REJECT
@@ -1989,6 +1995,7 @@ DOMAIN-SUFFIX,tmeadcomm.y.qq.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc1.bytedance.com,REJECT
 DOMAIN-SUFFIX,tnze.cn,REJECT
 DOMAIN-SUFFIX,tongbaimi.cn,REJECT
+DOMAIN-SUFFIX,tongji.qd8.cn,REJECT
 DOMAIN-SUFFIX,toolbar.baidu.com,REJECT
 DOMAIN-SUFFIX,tovbus.cn,REJECT
 DOMAIN-SUFFIX,tp2p.kg.qq.com,REJECT
@@ -2071,6 +2078,7 @@ DOMAIN-SUFFIX,ulog.ksapisrv.com,REJECT
 DOMAIN-SUFFIX,ulogjs.ksapisrv.com,REJECT
 DOMAIN-SUFFIX,ulogs1.ksapisrv.com,REJECT
 DOMAIN-SUFFIX,ulogs2.ksapisrv.com,REJECT
+DOMAIN-SUFFIX,umami.huexef.cn,REJECT
 DOMAIN-SUFFIX,umengacs.m.taobao.com,REJECT
 DOMAIN-SUFFIX,umengjmacs.m.taobao.com,REJECT
 DOMAIN-SUFFIX,un.ubaike.cn,REJECT
