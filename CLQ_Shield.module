@@ -1,11 +1,11 @@
-#!name=CLQ_Shield (更新日期:20261028)
-#!desc=国内去广告规则: 2255 ｜ 重写: 2127 ｜ 脚本: 359
+#!name=CLQ_Shield (更新日期:20261029)
+#!desc=国内去广告规则: 2256 ｜ 重写: 2127 ｜ 脚本: 359
 
 # 描述：专为中国境内环境优化的 Shadowrocket 纯去广告模块（专项强化：百度、百度地图、淘宝、天猫、支付宝、菜鸟、闲鱼、京东、喜马拉雅、番茄小说、番茄畅听、红果短剧）
 # 仓库地址: https://github.com/18661619000/Block-ads
 # 订阅地址: https://raw.githubusercontent.com/18661619000/Block-ads/main/CLQ_Shield.module
-# 更新时间: 2026-10-28 09:03:27 北京时间
-# 国内去广告规则总数: 2255
+# 更新时间: 2026-10-29 00:31:33 北京时间
+# 国内去广告规则总数: 2256
 # 国内 URL 重写总数: 2127
 # 国内去广告脚本总数: 359
 # MITM 主机名总数: 615
@@ -2237,6 +2237,7 @@ DOMAIN-SUFFIX,zampda.net,REJECT
 DOMAIN-SUFFIX,zc1.campaign-view.com.cn,REJECT
 DOMAIN-SUFFIX,zc1.maillist-manage.com.cn,REJECT
 DOMAIN-SUFFIX,zdw.w8.com.cn,REJECT
+DOMAIN-SUFFIX,zenstats.yzhy19.cn,REJECT
 DOMAIN-SUFFIX,zfru.cn,REJECT
 DOMAIN-SUFFIX,zgzxm.weathercn.com,REJECT
 DOMAIN-SUFFIX,zgzxs.weathercn.com,REJECT
