@@ -13,6 +13,12 @@
 # 2. 保存提交后，GitHub Actions 会自动运行 update_clq.py 并更新 CLQ_Shield.module 与 README.md。
 # ==============================================================================
 
+
+# --- 2026-11-11 抓包新增 ---
+DOMAIN-SUFFIX,firebaseinstallations.googleapis.com,REJECT-DICT
+DOMAIN-SUFFIX,firebaselogging-pa.googleapis.com,REJECT-DICT
+DOMAIN-SUFFIX,app-analytics-services.com,REJECT-DICT
+
 # --- 2026-10-15 抓包新增 ---
 DOMAIN-SUFFIX,iytcdn.com,REJECT-200
 DOMAIN-SUFFIX,obriccloud.com,REJECT-DICT
